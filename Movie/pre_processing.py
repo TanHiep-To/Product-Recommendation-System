@@ -15,7 +15,8 @@ warnings.filterwarnings("ignore")
 class MovieDataset:
     """Class for loading and preprocessing TMDB movie dataset."""
 
-    def __init__(self, credits_file='data/raw/tmdb_5000_credits.csv', movies_file='data/raw/tmdb_5000_movies.csv'):
+    def __init__(self, credits_file='data/raw/tmdb_5000_credits.csv',
+                movies_file='data/raw/tmdb_5000_movies.csv'):
         """Initialize MovieDataset with file paths."""
         self.data = None
         self.credits_file = credits_file
@@ -25,9 +26,9 @@ class MovieDataset:
         """Load movie data from CSV files and merge them."""
         print("Starting data loading...")
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        credits = pd.read_csv(os.path.join(base_dir, '.', self.credits_file), low_memory=False)
-        movies = pd.read_csv(os.path.join(base_dir, '.', self.movies_file), low_memory=False)
-        movies = movies.merge(credits, left_on='id', right_on='movie_id', how='left')
+        credits_df = pd.read_csv(os.path.join(base_dir, '.', self.credits_file), low_memory=False)
+        movies_df = pd.read_csv(os.path.join(base_dir, '.', self.movies_file), low_memory=False)
+        movies = movies_df.merge(credits_df, left_on='id', right_on='movie_id', how='left')
         movies.drop('movie_id', axis=1, inplace=True)
         movies = movies[['id', 'overview', 'genres', 'keywords', 'cast', 'crew', 'popularity',
                  'release_date', 'vote_average', 'vote_count', 'budget', 'revenue',

@@ -2,13 +2,14 @@
 
 import os
 import sys
-from typing import List, Dict, Union, Any
+from typing import Union
+import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 import sklearn.metrics.pairwise
+from pre_processing import MovieDataset
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from pre_processing import MovieDataset
 
 class ContentBasedFiltering:
     """Class implementing content-based movie recommendations."""
