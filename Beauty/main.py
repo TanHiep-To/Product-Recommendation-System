@@ -1,3 +1,5 @@
+"""Beauty product recommendation system using collaborative filtering."""
+
 import pandas as pd
 from sklearn.decomposition import TruncatedSVD
 from sklearn.metrics.pairwise import cosine_similarity
@@ -5,18 +7,21 @@ from scipy.sparse import csr_matrix
 from data.process import DataProcessor
 
 def load_and_process_data(file_path="./data/ratings_Beauty.csv"):
+    """Load and process beauty product ratings data."""
     processor = DataProcessor(file_path)
     processor.process_data()
     return processor
 
 class BeautyRecommender:
     def __init__(self, n_components=10):
+        """Initialize the recommender with the number of components for SVD."""
         self.processor = load_and_process_data()
         self.data = self.processor.get_data()
         self.n_components = n_components
         self._prepare_sparse_matrix()
 
     def _prepare_sparse_matrix(self):
+        """Prepare the sparse matrix from the data for SVD."""
         self.data['user_index'] = self.data['UserId'].astype('category').cat.codes
         self.data['product_index'] = self.data['ProductId'].astype('category').cat.codes
 
@@ -30,6 +35,7 @@ class BeautyRecommender:
         self.product_index_map = {v: k for k, v in self.product_id_map.items()}
 
     def recommend(self, product_id, num_recommendations=5):
+        """Recommend products similar to the given product ID."""
         if product_id not in self.product_index_map:
             raise ValueError(f"Product ID {product_id} not found in the dataset.")
 

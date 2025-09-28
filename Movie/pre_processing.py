@@ -1,19 +1,28 @@
-import pandas as pd
-import numpy as np
-import warnings
+"""Movie dataset preprocessing module."""
+
 import ast
 import os
 import sys
+import warnings
+
+import numpy as np
+import pandas as pd
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 warnings.filterwarnings("ignore")
 
+
 class MovieDataset:
+    """Class for loading and preprocessing TMDB movie dataset."""
+
     def __init__(self, credits_file='data/raw/tmdb_5000_credits.csv', movies_file='data/raw/tmdb_5000_movies.csv'):
+        """Initialize MovieDataset with file paths."""
         self.data = None
         self.credits_file = credits_file
         self.movies_file = movies_file
 
     def load_data(self):
+        """Load movie data from CSV files and merge them."""
         print("Starting data loading...")
         base_dir = os.path.dirname(os.path.abspath(__file__))
         credits = pd.read_csv(os.path.join(base_dir, '.', self.credits_file), low_memory=False)
@@ -23,16 +32,18 @@ class MovieDataset:
         movies = movies[['id', 'overview', 'genres', 'keywords', 'cast', 'crew', 'popularity',
                  'release_date', 'vote_average', 'vote_count', 'budget', 'revenue',
                  'runtime', 'status', 'tagline', 'title_x']]
-        
+
         self.data = movies
 
     def convert_to_list(self, text):
+        """Convert JSON-like string to list of names."""
         try:
             return [item['name'] for item in ast.literal_eval(text)]
         except (ValueError, SyntaxError):
             return []
 
     def extract_director(self, crew_list):
+        """Extract director name from crew list."""
         try:
             crew = ast.literal_eval(crew_list)
             for member in crew:
@@ -43,9 +54,10 @@ class MovieDataset:
         return np.nan
 
     def preprocess_data(self):
+        """Preprocess movie data by cleaning and transforming features."""
         if self.data is None:
             raise ValueError("Data not found. Please load the data first.")
-        
+
         print("Starting data preprocessing...")
         movies = self.data
         # Convert JSON-like strings to lists
@@ -66,13 +78,13 @@ class MovieDataset:
         movies['revenue'] = movies['revenue'].replace(0, np.nan).fillna(movies['revenue'].median())
         movies['runtime'] = movies['runtime'].fillna(movies['runtime'].median())
 
-
         # Remove rows with critical missing information
         movies.dropna(subset=['title_x', 'release_date'], inplace=True)
         movies.rename(columns={'title_x': 'title'}, inplace=True)
         movies.reset_index(drop=True, inplace=True)
 
         self.data = movies
+
 
 if __name__ == "__main__":
     dataset = MovieDataset()
