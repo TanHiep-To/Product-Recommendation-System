@@ -57,6 +57,23 @@ class BeautyRecommender:
         similar_products = [self.product_id_map[i] for i in similar_indices]
         return similar_products
 
+    def get_popular_products(self, n: int = 10) -> List[str]:
+        """Get the most popular products based on rating count."""
+        product_ratings = self.data.groupby('ProductId')['Rating'].agg(['count', 'mean'])
+        popular = product_ratings.sort_values('count', ascending=False)
+        return popular.head(n).index.tolist()
+
+    def get_similar_users(self, user_id: str, n: int = 5) -> List[str]:
+        """Find users with similar rating patterns."""
+        if user_id not in self.data['UserId'].unique():
+            raise ValueError(f"User ID {user_id} not found")
+        user_ratings = self.data.pivot_table(index='UserId', columns='ProductId', values='Rating')
+        user_sim = cosine_similarity(user_ratings.fillna(0))
+        user_idx = user_ratings.index.get_loc(user_id)
+        similar_scores = list(enumerate(user_sim[user_idx]))
+        similar_users = sorted(similar_scores, key=lambda x: x[1], reverse=True)[1:n+1]
+        return [user_ratings.index[idx] for idx, _ in similar_users]
+
 if __name__ == "__main__":
     recommender = BeautyRecommender()
     test_product_ids = recommender.processor.subset_data['ProductId'].unique()

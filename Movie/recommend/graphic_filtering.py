@@ -19,10 +19,9 @@ class GraphicFiltering:
         min_votes = self.data['vote_count'].quantile(0.90)
         votes = row['vote_count']
         rating = row['vote_average']
-        
         first_part = (votes / (votes + min_votes)) * rating
         second_part = (min_votes / (min_votes + votes)) * mean_vote
-        
+
         return first_part + second_part
 
     def recommend(self, top_n=10):
@@ -47,4 +46,5 @@ def main() -> None:
 
 # Example usage:
 if __name__ == "__main__":
+    main()
     main()
