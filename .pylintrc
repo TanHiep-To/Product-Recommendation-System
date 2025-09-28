@@ -1,0 +1,37 @@
+[MASTER]
+ignore=CVS,venv,__pycache__
+persistent=yes
+
+[MESSAGES CONTROL]
+disable=C0111,R0903,W0621,C0301,C0303,C0304,R0801,E1101,C0116,R0801
+
+[BASIC]
+good-names=i,j,k,ex,Run,_,id,df
+
+[FORMAT]
+max-line-length=120
+ignore-long-lines=^\s*(# )?<?https?://\S+>?$
+single-line-if-stmt=no
+no-space-check=trailing-comma,dict-separator
+max-module-lines=2000
+indent-string='    '
+
+[MISCELLANEOUS]
+notes=FIXME,XXX,TODO
+
+[SIMILARITIES]
+min-similarity-lines=4
+ignore-comments=yes
+ignore-docstrings=yes
+ignore-imports=no
+
+[IMPORTS]
+allow-any-import-level=yes
+notes=FIXME,XXX,TODO
+
+[SIMILARITIES]
+min-similarity-lines=4
+ignore-comments=yes
+ignore-docstrings=yes
+ignore-imports=no
+ignore-imports=no
