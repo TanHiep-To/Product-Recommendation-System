@@ -2,17 +2,22 @@ import pandas as pd
 import numpy as np
 import warnings
 import ast
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 warnings.filterwarnings("ignore")
 
 class MovieDataset:
-    def __init__(self):
+    def __init__(self, credits_file='data/raw/tmdb_5000_credits.csv', movies_file='data/raw/tmdb_5000_movies.csv'):
         self.data = None
+        self.credits_file = credits_file
+        self.movies_file = movies_file
 
     def load_data(self):
         print("Starting data loading...")
-
-        credits = pd.read_csv('./data/raw/tmdb_5000_credits.csv', low_memory=False)
-        movies = pd.read_csv('./data/raw/tmdb_5000_movies.csv', low_memory=False)
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        credits = pd.read_csv(os.path.join(base_dir, '.', self.credits_file), low_memory=False)
+        movies = pd.read_csv(os.path.join(base_dir, '.', self.movies_file), low_memory=False)
         movies = movies.merge(credits, left_on='id', right_on='movie_id', how='left')
         movies.drop('movie_id', axis=1, inplace=True)
         movies = movies[['id', 'overview', 'genres', 'keywords', 'cast', 'crew', 'popularity',
