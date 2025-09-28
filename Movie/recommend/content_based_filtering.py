@@ -1,9 +1,9 @@
 import os
-import sklearn.metrics.pairwise
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from pre_processing import MovieDataset
+import sklearn.metrics.pairwise
 from sklearn.feature_extraction.text import TfidfVectorizer
+from pre_processing import MovieDataset
 
 class ContentBasedFiltering:
     def __init__(self, data):
