@@ -1,7 +1,6 @@
 """Beauty product recommendation system using collaborative filtering."""
 
 from typing import List
-import pandas as pd
 from sklearn.decomposition import TruncatedSVD
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
@@ -15,7 +14,6 @@ def load_and_process_data(file_path: str = "./data/ratings_Beauty.csv") -> DataP
 
 class BeautyRecommender:
     """Recommender system for beauty products using collaborative filtering."""
-    
     def __init__(self, n_components: int = 10) -> None:
         """Initialize the recommender with the number of components for SVD."""
         self.processor = load_and_process_data()
@@ -37,7 +35,9 @@ class BeautyRecommender:
             (self.data['user_index'], self.data['product_index'])
         ))
 
-        self.product_id_map = dict(enumerate(self.data['ProductId'].astype('category').cat.categories))
+        self.product_id_map = dict(enumerate(self.data['ProductId']
+                                            .astype('category')
+                                            .cat.categories))
         self.product_index_map = {v: k for k, v in self.product_id_map.items()}
 
     def recommend(self, item_id: str, num_recommendations: int = 5) -> List[str]:

@@ -19,7 +19,11 @@ class GraphicFiltering:
         min_votes = self.data['vote_count'].quantile(0.90)
         votes = row['vote_count']
         rating = row['vote_average']
-        return (votes / (votes + min_votes) * rating) + (min_votes / (min_votes + votes) * mean_vote)
+        
+        first_part = (votes / (votes + min_votes)) * rating
+        second_part = (min_votes / (min_votes + votes)) * mean_vote
+        
+        return first_part + second_part
 
     def recommend(self, top_n=10):
         """Recommend top N movies based on weighted rating."""
