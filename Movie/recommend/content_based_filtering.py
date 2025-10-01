@@ -8,7 +8,7 @@ import pandas as pd
 import sklearn
 import sklearn.metrics.pairwise
 from sklearn.feature_extraction.text import TfidfVectorizer
-from Movie.pre_processing import MovieDataset
+from pre_processing import MovieDataset
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 

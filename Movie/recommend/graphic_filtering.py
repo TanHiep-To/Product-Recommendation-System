@@ -2,7 +2,7 @@
 
 import os
 import sys
-from Movie.pre_processing import MovieDataset
+from pre_processing import MovieDataset
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
