@@ -2,7 +2,7 @@
 
 import os
 import sys
-from pre_processing import MovieDataset
+from Movie.pre_processing import MovieDataset
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -46,5 +46,4 @@ def main() -> None:
 
 # Example usage:
 if __name__ == "__main__":
-    main()
     main()

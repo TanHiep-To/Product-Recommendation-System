@@ -5,9 +5,10 @@ import sys
 from typing import Union
 import numpy as np
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
+import sklearn
 import sklearn.metrics.pairwise
-from pre_processing import MovieDataset
+from sklearn.feature_extraction.text import TfidfVectorizer
+from Movie.pre_processing import MovieDataset
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -19,6 +20,7 @@ class ContentBasedFiltering:
         self.data: pd.DataFrame = data
         self.tfidf_matrix = None
         self.cosine_sim = None
+        self.tfidf_matrix = None
         self._initialize_matrices()
 
     def _initialize_matrices(self) -> None:
@@ -26,7 +28,8 @@ class ContentBasedFiltering:
         self.tfidf_matrix = self.calculate_tfidf()
         self.cosine_sim = self.cosine_similarity(self.tfidf_matrix)
 
-    def cosine_similarity(self, matrix) -> np.ndarray:
+    @staticmethod
+    def cosine_similarity(matrix) -> np.ndarray:
         """Compute cosine similarity matrix."""
         similarity_matrix = sklearn.metrics.pairwise.cosine_similarity(matrix, matrix)
         print(f"Cosine similarity matrix shape: {similarity_matrix.shape}")
