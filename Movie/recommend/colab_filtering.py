@@ -61,7 +61,7 @@ class ColabFiltering:
         # Return the recommended movies as a DataFrame
         recommended_movies = (self.data[self.data['movieId'].isin(top_movie_ids)]
                               .drop_duplicates('movieId'))
-        return recommended_movies[['movieId', 'title']].reset_index(drop=True)
+        return recommended_movies[['movieId', 'rating']].reset_index(drop=True)
 
 
 def main() -> None:
