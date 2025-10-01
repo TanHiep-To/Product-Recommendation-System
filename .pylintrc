@@ -24,7 +24,6 @@ min-similarity-lines=4
 ignore-comments=yes
 ignore-docstrings=yes
 ignore-imports=no
-ignore-imports=no
 
 [IMPORTS]
 allow-any-import-level=yes
