@@ -1,0 +1,20 @@
+[tool.black]
+line-length = 79  # Keep it at PEP 8, or change to 88 for Black's default
+include = '\.pyi?$'  # Only format Python files and type stubs
+exclude = '''
+/(
+    \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+)/
+'''
+
+skip-string-normalization = true  # Preserves your string quotes (e.g., single vs double quotes)
+
+target-version = ['py39']  # Adjust based on your project's Python version

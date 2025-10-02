@@ -2,9 +2,11 @@
 
 import os
 import sys
+
 from pre_processing import MovieDataset
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 class GraphicFiltering:
     """Class implementing demographic filtering for movie recommendations."""
@@ -33,6 +35,7 @@ class GraphicFiltering:
         # Return top N movies
         return movies.head(top_n)
 
+
 def main() -> None:
     """Main function to demonstrate filtering."""
     dataset = MovieDataset()
@@ -43,6 +46,7 @@ def main() -> None:
     recommendations = graphic_filter.recommend()
     print("Top movie recommendations:")
     print(recommendations[['title', 'vote_count', 'vote_average', 'score']])
+
 
 # Example usage:
 if __name__ == "__main__":

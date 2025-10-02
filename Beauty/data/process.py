@@ -2,6 +2,7 @@
 
 import pandas as pd
 
+
 class DataProcessor:
     """Process and clean beauty product ratings data."""
 
@@ -22,11 +23,13 @@ class DataProcessor:
         self.data.reset_index(drop=True, inplace=True)
         return self
 
+
 def main() -> None:
     """Main function for testing."""
     processor = DataProcessor()
     processor.process_data()
     print(processor.data.head())
+
 
 if __name__ == "__main__":
     main()
