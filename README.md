@@ -104,5 +104,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-Your Name - your.email@example.com
+Tan Hiep To - hiep.to@gmail.com
 Project Link: https://github.com/yourusername/Product-Recommendation-System
