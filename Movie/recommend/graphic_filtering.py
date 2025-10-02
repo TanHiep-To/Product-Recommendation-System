@@ -47,4 +47,3 @@ def main() -> None:
 # Example usage:
 if __name__ == "__main__":
     main()
-    main()
