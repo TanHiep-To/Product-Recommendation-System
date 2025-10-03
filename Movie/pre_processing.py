@@ -15,8 +15,11 @@ warnings.filterwarnings("ignore")
 class MovieDataset:
     """Class for loading and preprocessing TMDB movie dataset."""
 
-    def __init__(self, credits_file='data/raw/tmdb_5000_credits.csv',
-                movies_file='data/raw/tmdb_5000_movies.csv'):
+    def __init__(
+        self,
+        credits_file='data/raw/tmdb_5000_credits.csv',
+        movies_file='data/raw/tmdb_5000_movies.csv',
+    ):
         """Initialize MovieDataset with file paths."""
         self.data = None
         self.credits_file = credits_file
@@ -26,13 +29,36 @@ class MovieDataset:
         """Load movie data from CSV files and merge them."""
         print("Starting data loading...")
         base_dir = os.path.dirname(os.path.abspath(__file__))
-        credits_df = pd.read_csv(os.path.join(base_dir, '.', self.credits_file), low_memory=False)
-        movies_df = pd.read_csv(os.path.join(base_dir, '.', self.movies_file), low_memory=False)
-        movies = movies_df.merge(credits_df, left_on='id', right_on='movie_id', how='left')
+        credits_df = pd.read_csv(
+            os.path.join(base_dir, '.', self.credits_file), low_memory=False
+        )
+        movies_df = pd.read_csv(
+            os.path.join(base_dir, '.', self.movies_file), low_memory=False
+        )
+        movies = movies_df.merge(
+            credits_df, left_on='id', right_on='movie_id', how='left'
+        )
         movies.drop('movie_id', axis=1, inplace=True)
-        movies = movies[['id', 'overview', 'genres', 'keywords', 'cast', 'crew', 'popularity',
-                 'release_date', 'vote_average', 'vote_count', 'budget', 'revenue',
-                 'runtime', 'status', 'tagline', 'title_x']]
+        movies = movies[
+            [
+                'id',
+                'overview',
+                'genres',
+                'keywords',
+                'cast',
+                'crew',
+                'popularity',
+                'release_date',
+                'vote_average',
+                'vote_count',
+                'budget',
+                'revenue',
+                'runtime',
+                'status',
+                'tagline',
+                'title_x',
+            ]
+        ]
 
         self.data = movies
 
@@ -70,14 +96,34 @@ class MovieDataset:
         # Handle missing values
         movies['overview'] = movies['overview'].fillna('')
         movies['tagline'] = movies['tagline'].fillna('')
-        movies['cast'] = movies['cast'].fillna('[]').apply(self.convert_to_list)
-        movies['popularity'] = movies['popularity'].fillna(movies['popularity'].median())
-        movies['release_date'] = pd.to_datetime(movies['release_date'], errors='coerce')
-        movies['vote_average'] = movies['vote_average'].fillna(movies['vote_average'].median())
-        movies['vote_count'] = movies['vote_count'].fillna(movies['vote_count'].median())
-        movies['budget'] = movies['budget'].replace(0, np.nan).fillna(movies['budget'].median())
-        movies['revenue'] = movies['revenue'].replace(0, np.nan).fillna(movies['revenue'].median())
-        movies['runtime'] = movies['runtime'].fillna(movies['runtime'].median())
+        movies['cast'] = (
+            movies['cast'].fillna('[]').apply(self.convert_to_list)
+        )
+        movies['popularity'] = movies['popularity'].fillna(
+            movies['popularity'].median()
+        )
+        movies['release_date'] = pd.to_datetime(
+            movies['release_date'], errors='coerce'
+        )
+        movies['vote_average'] = movies['vote_average'].fillna(
+            movies['vote_average'].median()
+        )
+        movies['vote_count'] = movies['vote_count'].fillna(
+            movies['vote_count'].median()
+        )
+        movies['budget'] = (
+            movies['budget']
+            .replace(0, np.nan)
+            .fillna(movies['budget'].median())
+        )
+        movies['revenue'] = (
+            movies['revenue']
+            .replace(0, np.nan)
+            .fillna(movies['revenue'].median())
+        )
+        movies['runtime'] = movies['runtime'].fillna(
+            movies['runtime'].median()
+        )
 
         # Remove rows with critical missing information
         movies.dropna(subset=['title_x', 'release_date'], inplace=True)
@@ -92,7 +138,9 @@ if __name__ == "__main__":
     dataset.load_data()
     dataset.preprocess_data()
     processed_data = dataset.data
-    print("Data preprocessing completed. Here are the first few rows of the processed data:")
+    print(
+        "Data preprocessing completed. Here are the first few rows of the processed data:"
+    )
     print(processed_data.head())
 
     print("Summary of movies data:")
